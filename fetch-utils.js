@@ -4,6 +4,73 @@ const SUPABASE_URL = 'https://lgzsfsqaohtkvywluksc.supabase.co';
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+export async function createUser(email) {
+    const response = await client
+        .from('profiles')
+        .insert({ email })
+        .single();
+    
+    return checkError(response);
+}
+
+export async function getProfiles() {
+    const response = await client 
+        .from('profiles')
+        .select();
+
+    return checkError(response);
+}
+
+export async function getProfile(someId) {
+    const response = await client  
+        .from('profiles')
+        .select('*')
+        .match({ id: someId })
+        .single();
+
+    return checkError(response);
+}
+
+export async function getMessagesByRecipient(someId) {
+    const response = await client
+        .from('messages')
+        .select('*, profiles:sender_id (*)')
+        .match({ recipient_id: someId });
+
+    return checkError(response);
+}
+
+export async function createMessage(recipient_id, sender_id, text) {
+    const response = await client
+        .from('messages')
+        .insert({ 
+            recipient_id: recipient_id,
+            sender_id: sender_id,
+            text: text,
+        });
+
+    return checkError(response);
+}
+
+export async function incrementKarma(someId) {
+    const profile = await getProfile(someId);
+    const response = await client   
+        .from('profiles')
+        .update({ karma: profile.karma + 1 })
+        .select();
+        
+    return checkError(response);
+}
+
+export async function decrementKarma(someId) {
+    const profile = await getProfile(someId);
+    const response = await client   
+        .from('profiles')
+        .update({ karma: profile.karma - 1 })
+        .select();
+        
+    return checkError(response);
+}
 
 export function getUser() {
     return client.auth.session() && client.auth.session().user;
@@ -39,6 +106,6 @@ export async function logout() {
     return (window.location.href = '../');
 }
 
-// function checkError({ data, error }) {
-//     return error ? console.error(error) : data;
-// }
+function checkError({ data, error }) {
+    return error ? console.error(error) : data;
+}
