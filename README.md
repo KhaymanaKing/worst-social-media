@@ -24,3 +24,7 @@ Additional considerations:
     -   What needs to live in a persistence layer?
 -   Is there some state we need to initialize?
 -   Ask: should any of this work be abstracted into functions? (i.e., is the work complicated? can it be resused?)
+
+![Profiles page](./assets/profiles.jpg "page for the profiles")
+![individual users](./assets/individual%20user.jpg "page for the individual profile")
+![Kaban for project](./assets/kanban.jpg "kanban")
