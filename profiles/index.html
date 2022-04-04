@@ -16,17 +16,23 @@
 <body>
     <header>
         <div class="gutter-right logo">
-            <img src="../assets/big-logo.png" />
+            <a href="../">Home</a>
+            <button class="logout">Logout</button>
+            <img src="assets/big-logo.png" />
         </div>
-    </header>    
-    <button id="logout">Logout</button>
-    <main>
-        <h1>You are logged in!</h1>
+    </header>
+    <main class="auth-main">
+        <h1>Welcome, <span id="username">user</span>!</h1>
+        <div class="profiles-list">
+            
+
+        
+        </div>
     </main>
     <footer>
         <div class="copy gutter-right">&copy; 2021 Alchemy Code Lab</div>
     </footer>
-    <script type="module" src="./other-page.js"></script>
+    <script type="module" src="./profile.js"></script>
 </body>
 
 </html>
