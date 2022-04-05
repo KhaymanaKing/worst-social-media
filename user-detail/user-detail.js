@@ -55,11 +55,11 @@ async function fetchAndDisplayUserDetails() {
 }
 
 karmaUp.addEventListener('click', async () => {
-    const profile = await incrementKarma(id);
+    await incrementKarma(id);
     await fetchAndDisplayUserDetails();
 });
 
 karmaDown.addEventListener('click', async () => {
-    const profile = await decrementKarma(id);
+    await decrementKarma(id);
     await fetchAndDisplayUserDetails();
 });
