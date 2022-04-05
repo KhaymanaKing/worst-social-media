@@ -28,6 +28,7 @@ main {
     justify-content: center;
     align-items: center;
     margin-bottom: calc(var(--footer-height));
+    background-color:bisque;
 }
 
 section {
@@ -113,7 +114,7 @@ footer {
 
 .auth-main {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
 }
 
@@ -128,4 +129,29 @@ footer {
 
 .auth-container button {
     margin: 10px;
+}
+
+.profiles-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-link a {
+    text-decoration: none;
+    color: black;
+}
+
+.profile-link a:hover {
+    background-color: cyan;
+    border-radius: 20%;
+    width: 150%;
+}
+
+.profile-link {
+    border: solid black 1px;
+    padding: 50px;
+    margin: 10px;
+    width: 250px;
 }

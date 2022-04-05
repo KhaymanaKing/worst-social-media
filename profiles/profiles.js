@@ -9,7 +9,6 @@ checkAuth();
 async function fetchAndDisplay(){
     const profiles = await getProfiles();
     profiles.textContent = '';
-    console.log(profiles);
     for (let profile of profiles) {
         const profileEl = document.createElement('div');
         const linkEl = document.createElement('a');
