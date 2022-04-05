@@ -21,13 +21,23 @@ export async function getProfiles() {
     return checkError(response);
 }
 
-export async function getProfile(someId) {
+export async function getProfile(id) {
     const response = await client  
         .from('profiles')
         .select('*')
-        .match({ id: someId })
+        .match({ id: id })
         .single();
 
+    return checkError(response);
+}
+
+export async function getMyProfile(email) {
+    const response = await client
+        .from('profiles')
+        .select('*')
+        .match({ email: email })
+        .single();
+    
     return checkError(response);
 }
 
