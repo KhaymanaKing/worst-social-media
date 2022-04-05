@@ -16,7 +16,7 @@ export async function createUser(email) {
 export async function getProfiles() {
     const response = await client 
         .from('profiles')
-        .select();
+        .select('*');
 
     return checkError(response);
 }

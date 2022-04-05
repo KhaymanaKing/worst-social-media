@@ -1,19 +1,32 @@
-import { renderKarmaEl, renderMessagesEl } from '../render-utils.js';
-import { getProfiles, getProfile, getMessagesByRecipient, createMessage, incrementKarma, decrementKarma } from '../fetch-utils.js';
+import { getProfiles } from '../fetch-utils.js';
 import { checkAuth, logout } from '../fetch-utils.js';
 
-const profileDiv = document.querySelector('.profile');
+const profilesDiv = document.querySelector('.profiles-list');
 const logoutButton = document.querySelector('.logout');
 
 checkAuth();
 
-const profile = await getProfile(3);
+async function fetchAndDisplay(){
+    const profiles = await getProfiles();
+    profiles.textContent = '';
+    console.log(profiles);
+    for (let profile of profiles) {
+        const profileEl = document.createElement('div');
+        const linkEl = document.createElement('a');
 
+        profileEl.classList.add('profile-link');
 
-const karmaEl = await renderMessagesEl(profile.id);
+        linkEl.href = `../user-detail/?id=${profile.id}`;
+        linkEl.textContent = `${profile.email}`;
 
-profileDiv.append(karmaEl);
+        profileEl.append(linkEl);
+        profilesDiv.append(profileEl);
+    }
+}
 
+window.addEventListener('load', async () => {
+    await fetchAndDisplay();
+});
 
 logoutButton.addEventListener('click', () => {
     logout();
