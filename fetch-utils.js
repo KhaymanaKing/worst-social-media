@@ -44,7 +44,7 @@ export async function getMyProfile(email) {
 export async function getMessagesByRecipient(someId) {
     const response = await client
         .from('messages')
-        .select('*, profiles:sender_id (*)')
+        .select('*, profiles (*)')
         .match({ recipient_id: someId });
 
     return checkError(response);
