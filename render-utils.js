@@ -7,7 +7,7 @@ async function renderMessagesEl(profileId){
 
     const messages = await getMessagesByRecipient(profileId);
 
-    if (messages != null) {
+    if (messages !== null) {
         messages.map((message) => {
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message');
@@ -43,4 +43,4 @@ async function renderKarmaEl(profileId){
 export {
     renderMessagesEl,
     renderKarmaEl,
-}
+};
