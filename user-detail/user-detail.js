@@ -25,7 +25,8 @@ window.addEventListener('load', async () => {
 });
 
 const user = getUser();
-const sender = await getMyProfile(user.email);
+// eslint-disable-next-line
+const sender = await getMyProfile(user.email); 
 
 messageForm.addEventListener('submit', async (e) => {
     e.preventDefault();
