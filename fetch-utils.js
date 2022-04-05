@@ -21,21 +21,21 @@ export async function getProfiles() {
     return checkError(response);
 }
 
-export async function getProfile(id) {
+export async function getProfile(someId) {
     const response = await client  
         .from('profiles')
         .select('*')
-        .match({ id: id })
+        .match({ id: someId })
         .single();
 
     return checkError(response);
 }
 
-export async function getMyProfile(email) {
+export async function getMyProfile(someEmail) {
     const response = await client
         .from('profiles')
         .select('*')
-        .match({ email: email })
+        .match({ email: someEmail })
         .single();
     
     return checkError(response);
@@ -44,7 +44,7 @@ export async function getMyProfile(email) {
 export async function getMessagesByRecipient(someId) {
     const response = await client
         .from('messages')
-        .select('*, profiles (*)')
+        .select('*')
         .match({ recipient_id: someId });
 
     return checkError(response);
@@ -67,7 +67,8 @@ export async function incrementKarma(someId) {
     const response = await client   
         .from('profiles')
         .update({ karma: profile.karma + 1 })
-        .select();
+        .select('*')
+        .match({ id: someId });
         
     return checkError(response);
 }
@@ -77,7 +78,8 @@ export async function decrementKarma(someId) {
     const response = await client   
         .from('profiles')
         .update({ karma: profile.karma - 1 })
-        .select();
+        .select()
+        .match({ id: someId });
         
     return checkError(response);
 }
