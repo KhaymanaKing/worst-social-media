@@ -84,13 +84,13 @@ export function checkAuth() {
 
 export function redirectIfLoggedIn() {
     if (getUser()) {
-        location.replace('./other-page');
+        location.replace('./profiles');
     }
 }
 
 export async function signupUser(email, password) {
     const response = await client.auth.signUp({ email, password });
-
+    await createUser(email);
     return response.user;
 }
 
