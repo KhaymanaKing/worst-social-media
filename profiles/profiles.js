@@ -1,4 +1,4 @@
-import { getProfiles, getProfile, getMessagesByRecipient, createMessage, incrementKarma, decrementKarma } from '../fetch-utils.js';
+import { getProfiles } from '../fetch-utils.js';
 import { checkAuth, logout } from '../fetch-utils.js';
 
 const profilesDiv = document.querySelector('.profiles-list');
