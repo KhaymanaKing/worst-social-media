@@ -1,4 +1,4 @@
-import { checkAuth, createMessage, getMyProfile, getProfile, getUser, logout, incrementKarma, decrementKarma } from '../fetch-utils.js';
+import { checkAuth, createMessage, getMyProfile, getProfile, getUser, logout, incrementKarma, decrementKarma, makeImageUrl, uploadImage } from '../fetch-utils.js';
 import { renderMessagesEl } from '../render-utils.js';
 
 checkAuth();
@@ -32,9 +32,11 @@ messageForm.addEventListener('submit', async (e) => {
 
     const data = new FormData(messageForm);
     const message = data.get('message');
-    const sender = await getMyProfile(user.email); 
-
-    await createMessage(id, sender.id, message);
+    const sender = await getMyProfile(user.email);
+    const myImageFile = data.get('my-image');
+    const uploadedImage = await uploadImage(myImageFile); 
+    const URL = makeImageUrl(uploadedImage.Key);
+    await createMessage(id, sender.id, message, URL);
     
     await fetchAndDisplayUserDetails();
 
