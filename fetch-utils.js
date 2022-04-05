@@ -50,13 +50,14 @@ export async function getMessagesByRecipient(someId) {
     return checkError(response);
 }
 
-export async function createMessage(recipient_id, sender_id, text) {
+export async function createMessage(recipient_id, sender_id, text, URL) {
     const response = await client
         .from('messages')
         .insert({ 
             recipient_id: recipient_id,
             sender_id: sender_id,
             text: text,
+            image_url: URL
         });
 
     return checkError(response);
@@ -118,6 +119,22 @@ export async function logout() {
     return (window.location.href = '../');
 }
 
+
+export async function uploadImage(myImageFile) {
+    const response = await client
+        .storage
+        .from('message-images')
+        .upload(myImageFile.name, myImageFile, {
+            cacheControl: '3600',
+            upsert: false
+
+        });
+    return checkError(response);
+}
+
+export function makeImageUrl(imageKey){
+    return `${SUPABASE_URL}/storage/v1/object/public/${imageKey}`;
+}
 function checkError({ data, error }) {
     return error ? console.error(error) : data;
 }
