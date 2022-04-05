@@ -8,11 +8,15 @@ async function renderMessagesEl(profileId){
     const messages = await getMessagesByRecipient(profileId);
 
     if (messages !== null) {
-        messages.map((message) => {
+        messages.map(async (message) => {
             const messageDiv = document.createElement('div');
+            const image = document.createElement('img');
+            image.src = message.image_url;
+            image.classList.add('message-image');
             messageDiv.classList.add('message');
-            messageDiv.textContent = message.text;
-            messagesDiv.append(messageDiv);
+            const sender = await getProfile(message.sender_id);
+            messageDiv.textContent = `${sender.email} has sent ${message.text}`;
+            messagesDiv.append(messageDiv, image);
         });
     } else {
         messagesDiv.textContent = 'No messages';
