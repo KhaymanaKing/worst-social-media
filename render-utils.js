@@ -36,7 +36,6 @@ async function renderKarmaEl(profileId){
 
     karmaP.textContent = `Karma: ${karma}`;
     karmaDiv.append(karmaP);
-    console.log(karma, 'dis karma');
     return karmaDiv;
 }
 

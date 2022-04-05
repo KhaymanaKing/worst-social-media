@@ -1,4 +1,4 @@
-import { checkAuth, createMessage, getMessagesByRecipient, getMyProfile, getProfile, getUser, logout } from '../fetch-utils.js';
+import { checkAuth, createMessage, getMessagesByRecipient, getMyProfile, getProfile, getUser, logout, incrementKarma } from '../fetch-utils.js';
 import { renderMessagesEl } from '../render-utils.js';
 
 checkAuth();
@@ -20,13 +20,7 @@ const params = new URLSearchParams(window.location.search);
 const id = params.get('id');
 
 window.addEventListener('load', async () => {
-    //await fetchAndDisplayUserDetails();
-    
-    const { email, karma } = await getProfile(id);
-    
-    karmaHeader.textContent = `${email} has ${karma} karma.`;
-    recipientNameHeader.textContent = `Send ${email} a message:`;
-    messagesContainer.textContent = `Messages for ${email}`;
+    await fetchAndDisplayUserDetails();
     
 });
 
@@ -42,20 +36,24 @@ messageForm.addEventListener('submit', async (e) => {
 
     await createMessage(id, sender.user_id, message);
     
+    await fetchAndDisplayUserDetails();
 
     messageForm.reset();
 });
 
 
-// async function fetchAndDisplayUserDetails() {
+async function fetchAndDisplayUserDetails() {
 
-//     const messages = await getMessagesByRecipient(id);
-//     console.log(messages);
+    const { email, karma } = await getProfile(id);
+    
+    karmaHeader.textContent = `${email} has ${karma} karma.`;
+    recipientNameHeader.textContent = `Send ${email} a message:`;
+    messagesContainer.textContent = `Messages for ${email}`;
+    const messages = await renderMessagesEl(id);
 
-//     for (let message of messages) {
-//         const messageEl = await renderMessagesEl(message);
-//         messagesContainer.append(messageEl);
-        
-//     }
-// }
+    messagesContainer.append(messages);
+}
 
+karmaUp.addEventListener('click', async () => {
+    const profile = await incrementKarma(id);
+});
