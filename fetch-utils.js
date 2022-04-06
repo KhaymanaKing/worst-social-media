@@ -119,3 +119,24 @@ export async function logout() {
 function checkError({ data, error }) {
     return error ? console.error(error) : data;
 }
+
+
+
+export async function getActivePlayers() {
+    const response = await client
+        .from('profiles')
+        .select('*')
+        .match({ is_playing: true });
+
+    return checkError(response);
+}
+
+export async function updatePlayer(updatedPlayer) {
+    const response = await client
+        .from('profiles')
+        .update(updatedPlayer)
+        .match({ id: updatedPlayer.id })
+        .single();
+
+    return checkError(response);
+}
