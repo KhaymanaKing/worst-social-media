@@ -4,6 +4,8 @@ const SUPABASE_URL = 'https://lgzsfsqaohtkvywluksc.supabase.co';
 
 const client = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+export { client };
+
 export async function createUser(email) {
     const response = await client
         .from('profiles')
