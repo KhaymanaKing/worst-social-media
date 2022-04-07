@@ -45,11 +45,15 @@ messageForm.addEventListener('submit', async (e) => {
     const message = data.get('message');
     const sender = await getMyProfile(user.email);
     const myImageFile = data.get('my-image');
-    const uploadedImage = await uploadImage(myImageFile);
-    const URL = makeImageUrl(uploadedImage.Key);
-    
+    if (myImageFile.name) {
+        const uploadedImage = await uploadImage(myImageFile);
+        const URL = makeImageUrl(uploadedImage.Key);
+        
+        await createMessage(id, sender.user_id, message, URL);
 
-    await createMessage(id, sender.user_id, message, URL);
+    } else {
+        await createMessage(id, sender.user_id, message);
+    }
     
     await fetchAndDisplayUserDetails();
 

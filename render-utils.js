@@ -10,18 +10,30 @@ async function renderMessagesEl(profileId){
     if (messages !== null) {
         for (let message of messages) {
             const messageDiv = document.createElement('div');
-            const image = document.createElement('img');
-            image.src = message.image_url;
-            console.log(message.image_url, 'yellow');
-            image.classList.add('message-image');
-            messageDiv.classList.add('message');
-            const sender = await getProfile(message.sender_id);
-            messageDiv.textContent = `${sender.email} has sent ${message.text}`;
-            messagesDiv.append(messageDiv, image);
+            if (message.image_url) {
+                
+
+                const image = document.createElement('img');
+                image.src = message.image_url;
+                image.classList.add('message-image');
+                messageDiv.classList.add('message');
+                const sender = await getProfile(message.sender_id);
+                messageDiv.textContent = `${sender.email} has sent ${message.text}`;
+                messageDiv.append(image);
+                messagesDiv.append(messageDiv);
+
+            } 
+            else {
+                messageDiv.classList.add('message');
+                const sender = await getProfile(message.sender_id);
+                messageDiv.textContent = `${sender.email} has sent ${message.text}`;
+                messagesDiv.append(messageDiv);
+            }
         }
     } else {
         messagesDiv.textContent = 'No messages';
     }
+
 
 
     return messagesDiv;

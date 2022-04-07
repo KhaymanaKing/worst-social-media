@@ -184,3 +184,10 @@ footer {
     width: 15%;
     padding: 5px;
 }
+
+.message-image {
+    width: 150px;
+    display: flex;
+    flex-wrap: wrap;
+
+}
