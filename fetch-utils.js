@@ -46,22 +46,31 @@ export async function getMyProfile(someEmail) {
 export async function getMessagesByRecipient(someId) {
     const response = await client
         .from('messages')
-        .select('*, profiles (*)')
+        .select('*')
         .match({ recipient_id: someId });
     
-    console.log(response);
     return checkError(response);
 }
 
-export async function createMessage(recipient_id, sender_id, text, URL) {
+export async function createMessage(recipient_id, sender, text, URL) {
+    const sender_id = await getSenderProfile(sender);
     const response = await client
         .from('messages')
         .insert({ 
             recipient_id: recipient_id,
-            sender_id: sender_id,
+            sender_id: sender_id.id,
             text: text,
             image_url: URL
         });
+    return checkError(response);
+}
+
+export async function getSenderProfile(id) {
+    const response = await client
+        .from('profiles')
+        .select('*')
+        .match({ user_id: id })
+        .single();
 
     return checkError(response);
 }
