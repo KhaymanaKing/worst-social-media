@@ -8,9 +8,6 @@ const allPlayersEl = document.querySelector('.all-players');
 const toggleButtonEl = document.querySelector('.toggle');
 const logoutButtonEl = document.querySelector('.logout');
 
-// window.addEventListener('load', async () => {
-//     fetchAndDisplayActivePlayers();
-// });
 
 window.addEventListener('keydown', async (e) => {
     if (e.key === 'w') currentPlayer.y_position -= 10;
@@ -23,9 +20,9 @@ window.addEventListener('keydown', async (e) => {
 
 window.addEventListener('load', async () => {
     currentPlayer = await getMyProfile(getUser().email);
-    // console.log(currentPlayer);
+
     await fetchAndDisplayActivePlayers();
-    // console.log(fetch);    
+
     
     await client
         .from('profiles')
@@ -34,7 +31,7 @@ window.addEventListener('load', async () => {
         })
         .subscribe();
 
-    currentPlayer.is_playing = !currentPlayer.is_playing;
+    currentPlayer.is_playing = true;
     updatePlayer(currentPlayer);
     
 });
@@ -43,7 +40,7 @@ window.addEventListener('load', async () => {
 async function fetchAndDisplayActivePlayers() {
     allPlayersEl.textContent = '';
     const activePlayers = await getActivePlayers();
-    // console.log(activePlayers);
+
     for (let player of activePlayers) {
         const playerEl = document.createElement('div');
         playerEl.textContent = `👽 ${player.email}`;
@@ -60,13 +57,13 @@ toggleButtonEl.addEventListener('click', async () => {
     currentPlayer.is_playing = !currentPlayer.is_playing;
     
     await updatePlayer(currentPlayer);
-    // console.log(currentPlayer, 'current');
+
     fetchAndDisplayActivePlayers();
 });
 
 
 logoutButtonEl.addEventListener('click', () => {
-    currentPlayer.is_playing = !currentPlayer.is_playing;
+    currentPlayer.is_playing = false;
     updatePlayer(currentPlayer);
     logout();
 
