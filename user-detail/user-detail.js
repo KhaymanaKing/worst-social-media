@@ -1,4 +1,4 @@
-import { checkAuth, createMessage, getMessagesByRecipient, getMyProfile, getProfile, getUser, logout, incrementKarma } from '../fetch-utils.js';
+import { checkAuth, createMessage, getMessagesByRecipient, getMyProfile, getProfile, getUser, logout, incrementKarma, uploadImage, decrementKarma } from '../fetch-utils.js';
 import { renderMessagesEl } from '../render-utils.js';
 
 checkAuth();
@@ -33,6 +33,9 @@ messageForm.addEventListener('submit', async (e) => {
     const data = new FormData(messageForm);
     const message = data.get('message');
     const sender = await getMyProfile(user.email);
+    const myImageFile = data.get('my-image');
+    const uploadedImage = await uploadImage(myImageFile);
+    const URL = makeImageUrl(uploadedImage.Key);
 
     await createMessage(id, sender.user_id, message);
     
@@ -55,5 +58,11 @@ async function fetchAndDisplayUserDetails() {
 }
 
 karmaUp.addEventListener('click', async () => {
-    const profile = await incrementKarma(id);
+    await incrementKarma(id);
+    await fetchAndDisplayUserDetails();
+});
+
+karmaDown.addEventListener('click', async () => {
+    await decrementKarma(id);
+    await fetchAndDisplayUserDetails();
 });
